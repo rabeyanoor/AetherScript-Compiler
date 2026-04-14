@@ -4,17 +4,26 @@ A modern, interactive compiler and interpreter with **real-time token stream**, 
 
 ---
 
-## Features
+## What I Built
 
-- **Real-time Lexing & Parsing** — See tokens and AST as you type
-- **Interactive AST Visualization** — Zoom, pan, and explore the Abstract Syntax Tree with D3.js
-- **State Inspector** — Watch variable states update during execution
+Over the past few days, I've been working on this project and finally completed it — **AetherScript**, a modern, interactive compiler and interpreter.
+
+### 🔧 Components
+
+- **Lexical Analyzer** — Built with Flex (Lex)
+- **Parser** — Built with Bison (Yacc)
+- **AST Interpreter** — Built with Python + FastAPI
+- **Interactive Frontend** — Built with React + Vite + D3.js
+
+### 🎯 Features
+
+- **Real-time Token Stream** — See tokens as you type
+- **AST Visualization** — Zoom, pan, and explore the Abstract Syntax Tree with D3.js
+- **Variable State Inspector** — Watch variable states update during execution
 - **C-style Syntax Support** — Variables, functions, loops, conditionals, printf, and more
-- **Python Interpreter Backend** — Executes the parsed AST with full output
+- **Advanced Operators** — Ternary operator (`? :`), break statement, pre-increment (`++x`) all supported
 
----
-
-## Tech Stack
+### 💻 Tech Stack
 
 | Layer       | Technology           |
 | ----------- | -------------------- |
@@ -43,7 +52,7 @@ compilerX/
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── ASTPanel.jsx      # D3.js tree visualization
-│   │   │   ├── EditorPanel.jsx   # Code editor
+│   │   │   ├── EditorPanel.jsx   # Code editor (Monaco)
 │   │   │   ├── OutputPanel.jsx   # Execution output
 │   │   │   └── TokenPanel.jsx    # Token stream display
 │   │   └── App.jsx
@@ -57,14 +66,6 @@ compilerX/
 ---
 
 ## Quick Start
-
-## website:
-
-![alt text](<Screenshot from 2026-04-14 22-28-19.png>)
-![alt text](<Screenshot from 2026-04-14 22-28-30.png>)
-![alt text](<Screenshot from 2026-04-14 22-28-39.png>)
-
----
 
 ### One-Command Startup
 
@@ -101,131 +102,102 @@ Or use the bundled virtual environment:
 ../venv/bin/python -m pip install fastapi uvicorn
 ```
 
-### Step 3: Start the Backend Server
+### Step 3: Start Backend
 
 ```bash
-cd backend
-../venv/bin/python3 main.py
-# Server runs on http://localhost:8000
+cd ..
+bash start_backend.sh
 ```
 
-### Step 4: Start the Frontend
+### Step 4: Start Frontend
 
 ```bash
 cd frontend-react
 npm install
 npm run dev
-# Frontend runs on http://localhost:5173
 ```
 
 ---
 
-# Backend
+## Supported Syntax
 
-bash start_backend.sh
-
-# Frontend (anather terminal)
-
-cd frontend-react && npm run dev
-
-## All Commands Summary
-
----
-
-| Command                                     | Description                                 |
-| ------------------------------------------- | ------------------------------------------- |
-| `bash start_backend.sh`                     | Start backend server (auto-builds compiler) |
-| `cd compiler && make clean && make`         | Build the Flex/Bison compiler               |
-| `cd backend && ../venv/bin/python3 main.py` | Start FastAPI backend server                |
-| `cd frontend-react && npm install`          | Install frontend dependencies               |
-| `cd frontend-react && npm run dev`          | Start React frontend dev server             |
-| `./minilang <source_file>`                  | Run compiler on a source file (CLI)         |
-
----
-
-## How It Works
-
-```
-Source Code
-    ↓
-[ Flex Lexer ]  →  Token Stream
-    ↓
-[ Bison Parser ]  →  AST (JSON)
-    ↓
-[ FastAPI Backend ]  →  Interpreter  →  Execution Output
-    ↓
-[ React Frontend ]  →  Visualization (Tokens, AST Tree, State)
+### Variables
+```c
+let x = 10;
+int count = 0;
+float pi = 3.14;
+bool flag = true;
 ```
 
-### 1. Lexical Analysis (Flex)
-
-`lexer.l` reads the source code and produces a stream of tokens (keywords, identifiers, operators, etc.)
-
-### 2. Parsing (Bison)
-
-`parser.y` takes the tokens and builds an Abstract Syntax Tree (AST) according to the grammar rules
-
-### 3. AST Serialization
-
-The AST is serialized to JSON format in `ast.c`
-
-### 4. Interpretation (Python)
-
-`main.py` (FastAPI) receives the JSON AST, evaluates it using the `Interpreter` class, and returns the output
-
-### 5. Visualization (React)
-
-React frontend displays:
-
-- **Token Stream** — All tokens from the lexer
-- **AST Panel** — Interactive D3.js tree visualization
-- **Output Panel** — Execution results and variable states
-
----
-
-## API Endpoints
-
-### Health Check
-
-```
-GET http://localhost:8000/health
-```
-
-### Compile & Execute
-
-```
-POST http://localhost:8000/compile
-Content-Type: application/json
-
-{
-  "code": "int main() { printf(\"Hello\\n\"); return 0; }"
+### Functions
+```c
+fn greet(name) {
+    printf("Hello, %s!\n", name);
 }
 ```
 
-Response:
-
-```json
-{
-  "success": true,
-  "tokens": [...],
-  "ast": {...},
-  "execution_output": "Hello\n",
-  "variables": {}
+### Control Flow
+```c
+// If-Else
+if (x > 10) {
+    print(x);
+} else {
+    print(0);
 }
+
+// Ternary Operator
+let result = (x > 0) ? x : -x;
+
+// While Loop
+while (i < 10) {
+    print(i);
+    i++;
+}
+
+// For Loop
+for (int i = 0; i < 5; i++) {
+    if (i == 3) break;
+    print(i);
+}
+```
+
+### Output
+```c
+// Simple print
+print(x);
+
+// C-style printf
+printf("Value: %d\n", x);
+printf("Name: %s, Age: %d\n", "Alice", 25);
+
+// C++ style cout
+cout << x << endl;
+cout << "Hello, World!" << endl;
 ```
 
 ---
 
-## Requirements
+## What I Learned
 
-- **Flex** (Lexical Analyzer Generator)
-- **Bison** (Parser Generator)
-- **Python 3.8+**
-- **Node.js 16+**
-- **npm** or **yarn**
+Building this project helped me gain hands-on experience with:
+
+- **Compiler Design** — Lexing, parsing, and AST generation
+- **Parser Grammar** — Trial and error with Bison grammar rules
+- **Full-Stack Development** — From C compiler to React frontend
+- **REST API Integration** — Connecting compiler to web interface
+
+---
+
+## Future Enhancements
+
+- [ ] Arrays and structs support
+- [ ] Self-hosting compiler
+- [ ] More built-in functions
+- [ ] Error recovery in parser
+- [ ] Step-by-step execution debugger
 
 ---
 
 ## License
 
-MIT License
+MIT License — See LICENSE file for details.

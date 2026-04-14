@@ -187,7 +187,7 @@ export default function EditorPanel({
         { token: "operator", foreground: "f92672" },
       ],
       colors: {
-        "editor.background": "#1e1f1c",
+        "editor.background": "#272822",
         "editorCursor.foreground": "#f8f8f0",
         "editor.lineHighlightBackground": "#3e3d32",
         "editorLineNumber.foreground": "#75715e",
@@ -207,7 +207,7 @@ export default function EditorPanel({
         { token: "operator", foreground: "81a1c1" },
       ],
       colors: {
-        "editor.background": "#3c4251",
+        "editor.background": "#2e3440",
         "editorCursor.foreground": "#d8dee9",
         "editor.lineHighlightBackground": "#3b4252",
         "editorLineNumber.foreground": "#4c566a",
@@ -227,7 +227,7 @@ export default function EditorPanel({
         { token: "operator", foreground: "ff61d8" },
       ],
       colors: {
-        "editor.background": "#1f0f1f",
+        "editor.background": "#1a0a1a",
         "editorCursor.foreground": "#ff69b4",
         "editor.lineHighlightBackground": "#2a1a2a",
         "editorLineNumber.foreground": "#8b4570",
@@ -247,7 +247,7 @@ export default function EditorPanel({
         { token: "operator", foreground: "ff5555" },
       ],
       colors: {
-        "editor.background": "#21222c",
+        "editor.background": "#282a36",
         "editorCursor.foreground": "#f8f8f2",
         "editor.lineHighlightBackground": "#383a4a",
         "editorLineNumber.foreground": "#6272a4",
@@ -267,7 +267,7 @@ export default function EditorPanel({
         { token: "operator", foreground: "cb4b16" },
       ],
       colors: {
-        "editor.background": "#02364b",
+        "editor.background": "#002b36",
         "editorCursor.foreground": "#839496",
         "editor.lineHighlightBackground": "#073642",
         "editorLineNumber.foreground": "#586e75",
@@ -287,7 +287,7 @@ export default function EditorPanel({
         { token: "operator", foreground: "fe8019" },
       ],
       colors: {
-        "editor.background": "#32302f",
+        "editor.background": "#282828",
         "editorCursor.foreground": "#ebdbb2",
         "editor.lineHighlightBackground": "#3c3836",
         "editorLineNumber.foreground": "#665c54",
@@ -307,7 +307,7 @@ export default function EditorPanel({
         { token: "operator", foreground: "61afef" },
       ],
       colors: {
-        "editor.background": "#21252b",
+        "editor.background": "#1e2127",
         "editorCursor.foreground": "#abb2bf",
         "editor.lineHighlightBackground": "#282c34",
         "editorLineNumber.foreground": "#4b5263",
@@ -327,7 +327,7 @@ export default function EditorPanel({
         { token: "operator", foreground: "79c0ff" },
       ],
       colors: {
-        "editor.background": "#010409",
+        "editor.background": "#0d1117",
         "editorCursor.foreground": "#c9d1d9",
         "editor.lineHighlightBackground": "#161b22",
         "editorLineNumber.foreground": "#484f58",
@@ -347,7 +347,7 @@ export default function EditorPanel({
         { token: "operator", foreground: "88c0d0" },
       ],
       colors: {
-        "editor.background": "#2f3849",
+        "editor.background": "#2e3440",
         "editorCursor.foreground": "#eceff4",
         "editor.lineHighlightBackground": "#3b4252",
         "editorLineNumber.foreground": "#4c566a",

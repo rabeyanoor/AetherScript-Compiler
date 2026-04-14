@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import EditorPanel from "./components/EditorPanel";
 import TokenPanel from "./components/TokenPanel";
@@ -105,6 +105,10 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("idle"); // idle | loading | ok | error
   const [siteTheme, setSiteTheme] = useState("dark");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", siteTheme);
+  }, [siteTheme]);
 
   const [variables, setVariables] = useState({});
 

@@ -39,7 +39,7 @@ class Interpreter:
     def __init__(self):
         self.variables = {}
         self.functions = {}
-        self.output = []
+        self.output_buffer = []
         self.recursion_limit = 1000
         self.call_stack = 0
     
@@ -94,8 +94,9 @@ class Interpreter:
 
         elif node_type == "StringLiteral":
             val = node.get("value")
-            # Lexer already strips quotes, so we don't need to do it here.
-            # If we do val[1:-1], we might be stripping actual content.
+            if val:
+                # Handle common escape sequences
+                val = val.replace("\\n", "\n").replace("\\t", "\t").replace("\\r", "\r")
             return val
 
         elif node_type == "Identifier":
@@ -104,7 +105,6 @@ class Interpreter:
 
         elif node_type == "BinaryExpression":
             op = node.get("value")
-            # Strict C-style truthiness helper
             # bool helper
             def bool_res(cond): return 1 if cond else 0
 
@@ -116,6 +116,9 @@ class Interpreter:
             if op == "*": return left * right
             if op == "/":
                 if right == 0: raise Exception("Division by zero")
+                # Use floor division for integers to match C behavior
+                if isinstance(left, int) and isinstance(right, int):
+                    return left // right
                 return left / right
             if op == "%":
                 if right == 0: raise Exception("Modulo by zero")
@@ -167,7 +170,7 @@ class Interpreter:
 
         elif node_type == "PrintStatement":
             val = self.evaluate(node.get("left"))
-            self.output.append(str(val))
+            self.output_buffer.append(str(val))
             return val
 
         elif node_type == "FuncDecl":
@@ -193,7 +196,6 @@ class Interpreter:
                 else:
                     args_values.append(self.evaluate(curr_arg))
                     break
-            print(f"DEBUG: name=u0027{name}u0027, args={args_values}")
 
             if name == "sqrt" and args_values:
                 self.call_stack -= 1
@@ -221,7 +223,6 @@ class Interpreter:
                     import re
                     fmt = args_values[0]
                     # This is a naive substitution for %d, %f, %s, etc.
-                    # We convert %d, %f, %s to {} for string.format()
                     placeholders = re.findall(r'%[dsf]', fmt)
                     if placeholders:
                         py_fmt = re.sub(r'%[dsf]', '{}', fmt)
@@ -229,15 +230,15 @@ class Interpreter:
                             # Only use as many arguments as there are placeholders
                             count = len(placeholders)
                             formatted = py_fmt.format(*args_values[1:1+count])
-                            self.output.append(formatted)
+                            self.output_buffer.append(formatted)
                             self.call_stack -= 1
                             return formatted
                         except Exception:
                             pass # Fallback to standard behavior if formatting fails
 
-                # Default: print the last argument (or join all args if needed)
+                # Default: append to output buffer
                 val_to_print = args_values[-1]
-                self.output.append(str(val_to_print))
+                self.output_buffer.append(str(val_to_print))
                 self.call_stack -= 1
                 return val_to_print
 
@@ -270,10 +271,7 @@ class Interpreter:
             val = self.evaluate(node.get("left"))
             raise ReturnSignal(val)
 
-        # Handle linked list of statements (via next)
-        res = None
-        
-        return res
+        return None
 
     def run(self, ast):
         # Evaluate root node (Program) which recursively evaluates all statements
@@ -283,7 +281,8 @@ class Interpreter:
         if "main" in self.functions:
             res = self.evaluate({"type": "CallExpression", "value": "main", "left": None})
         
-        return self.output, self.variables
+        # Return full output as string and variables
+        return "".join(self.output_buffer), self.variables
 
 # ── API Endpoints ─────────────────────────────────────────────────────────────
 @app.get("/health")
@@ -323,7 +322,7 @@ async def compile_code(request: CompileRequest):
 
         success = result.returncode == 0
         ast_data = None
-        exec_output = []
+        exec_output = ""
         variables = {}
 
         if success:
@@ -342,7 +341,7 @@ async def compile_code(request: CompileRequest):
             "tokens":  tokens,
             "ast":     ast_data,
             "error":   "\n".join(error_lines) if error_lines else None,
-            "execution_output": "\n".join(exec_output),
+            "execution_output": exec_output,
             "variables": variables
         }
 

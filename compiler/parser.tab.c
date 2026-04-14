@@ -1494,7 +1494,7 @@ yyreduce:
   case 32: /* for_stmt: FOR LPAREN var_decl expression SEMICOLON update RPAREN statement  */
 #line 132 "parser.y"
                                                                      {
-        /* NODE_FOR: left=init, mid=cond, right=NODE_FOR_TAIL(left=step, mid=body) */
+        /* var_decl already includes SEMICOLON */
         ASTNode* tail = create_node(NODE_PROGRAM, NULL, (yyvsp[-2].nval), (yyvsp[0].nval), NULL);
         (yyval.nval) = create_node(NODE_FOR, NULL, (yyvsp[-5].nval), (yyvsp[-4].nval), tail);
     }
@@ -1504,7 +1504,7 @@ yyreduce:
   case 33: /* for_stmt: FOR LPAREN assignment expression SEMICOLON update RPAREN statement  */
 #line 137 "parser.y"
                                                                          {
-        /* NODE_FOR: left=init, mid=cond, right=NODE_FOR_TAIL(left=step, mid=body) */
+        /* assignment already includes SEMICOLON */
         ASTNode* tail = create_node(NODE_PROGRAM, NULL, (yyvsp[-2].nval), (yyvsp[0].nval), NULL);
         (yyval.nval) = create_node(NODE_FOR, NULL, (yyvsp[-5].nval), (yyvsp[-4].nval), tail);
     }

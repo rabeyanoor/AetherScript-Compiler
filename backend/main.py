@@ -18,7 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ── Absolute paths ────────────────────────────────────────────────────────────
+#  Absolute paths 
 BASE_DIR      = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR   = os.path.dirname(BASE_DIR)
 COMPILER_PATH = os.path.join(PROJECT_DIR, "compiler", "aetherscript")

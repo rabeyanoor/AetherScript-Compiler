@@ -18,11 +18,11 @@ int main(int argc, char** argv) {
         yyin = file;
     }
 
-    // Pass 1: Lex everything to populate token stream (even on error) 
+    //  Pass 1: Lex everything to populate token stream (even on error) ---
     suppress_tokens = 0;
     while(yylex() != 0);
 
-    // Reset for Pass 2 
+    // --- Reset for Pass 2 ---
     if (yyin != stdin) {
         fseek(yyin, 0, SEEK_SET);
     }

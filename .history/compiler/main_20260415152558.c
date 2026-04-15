@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
     suppress_tokens = 0;
     while(yylex() != 0);
 
-    // Reset for Pass 2 
+    //  Reset for Pass 2 
     if (yyin != stdin) {
         fseek(yyin, 0, SEEK_SET);
     }

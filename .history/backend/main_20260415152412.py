@@ -339,7 +339,7 @@ class Interpreter:
         # Return full output as string and variables
         return "".join(self.output_buffer), self.variables
 
-#  API Endpoints 
+#  API Endpoints ─────────────────────────────────────────────────────────────
 @app.get("/health")
 async def health():
     compiler_ok = os.path.isfile(COMPILER_PATH) and os.access(COMPILER_PATH, os.X_OK)

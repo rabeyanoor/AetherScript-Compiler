@@ -34,6 +34,24 @@ Over the past few days, I've been working on this project and finally completed 
 
 ---
 
+## Architecture & Data Flow
+
+```mermaid
+graph TD
+    User[Code Editor] -->|Source Code| API[FastAPI Server]
+    API -->|Run subprocess| Compiler[C Compiler binary]
+    Compiler -->|lexer.l| Lex[Lexical Analyzer]
+    Compiler -->|parser.y| Parse[Bison Parser]
+    Lex -->|Tokens| Parse
+    Parse -->|JSON AST| AST[AST Output]
+    AST -->|Response| API
+    API -->|Interpret AST| Run[Interpreter]
+    Run -->|JSON Results| User
+    User -->|Visualize AST| D3[D3.js Visualization]
+```
+
+---
+
 ## Project Structure
 
 ```

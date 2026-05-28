@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import subprocess
 import os
@@ -18,7 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ── Absolute paths ────────────────────────────────────────────────────────────
+#  Absolute paths
 BASE_DIR      = os.path.dirname(os.path.abspath(__file__))
 PROJECT_DIR   = os.path.dirname(BASE_DIR)
 COMPILER_PATH = os.path.join(PROJECT_DIR, "compiler", "aetherscript")
@@ -404,6 +406,13 @@ async def compile_code(request: CompileRequest):
         if os.path.exists(temp_file):
             os.remove(temp_file)
 
+# Serve frontend static files if the build directory exists
+frontend_dist = os.path.join(PROJECT_DIR, "frontend-react", "dist")
+if os.path.exists(frontend_dist):
+    app.mount("/", StaticFiles(directory=frontend_dist, html=True), name="frontend")
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # Allow port overriding via environment variable
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

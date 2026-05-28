@@ -117,7 +117,8 @@ export default function App() {
     setLoading(true);
     setStatus("loading");
     try {
-      const { data } = await axios.post("/compile", { code });
+      const apiUrl = import.meta.env.VITE_API_URL || "";
+      const { data } = await axios.post(`${apiUrl}/compile`, { code });
       setTokens(data.tokens ?? []);
       setAst(data.ast ?? null);
       setOutput(data.execution_output ?? "");
